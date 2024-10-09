@@ -64,8 +64,7 @@ class PrivacyTierDataset(Dataset):
                         d['input'] = "{}Meeting:\n{}\n{}\nAnswer: ".format(instruction, d['text'], d['question'])
         # repeat each element in texts n_samples times
         processed_data = [d for d in data for _ in range(args.n_samples)]
-        import pdb
-        pdb.set_trace()
+        # pdb.set_trace()
         self.data = processed_data
         self.meta_data = meta_data
 
@@ -655,8 +654,6 @@ class EvalAgent():
                 else:    
                     _response = self.model.interact(data['input'])
                     response = self.parse_response(_response)
-                import pdb
-                pdb.set_trace()
                 if response is not None:
                     break
                 print("Invalid response: {}. Trying again...".format(_response))
