@@ -362,7 +362,7 @@ class EvalAgent():
             save_output.update(data)
             # save the model responses in a file on the fly
             with open(model_outputs_filepath, 'a') as f:
-                json.dump({'index': idx, 'response': response, 'input': data['input'], 'data': data}, f)
+                json.dump(save_output, f)
                 f.write("\n")
 
         return model_responses
