@@ -5,7 +5,7 @@ from types import SimpleNamespace
 
 class GPT3BaseAgent():
     def __init__(self, kwargs: dict):
-        openai.api_key = os.getenv('OPENAI_API_KEY')
+        openai.api_key = "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"
         self.args = SimpleNamespace(**kwargs)
         self._set_default_args()
 
