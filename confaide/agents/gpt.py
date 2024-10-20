@@ -84,9 +84,17 @@ class ConversationalGPTBaseAgent(GPT3BaseAgent):
     def generate(self, prompt):
         while True:
             try:
-                completion = openai.ChatCompletion.create(
+                assist_completion = openai.ChatCompletion.create(
                     model=self.args.model,
-                    messages=[{"role": "user", "content": "{}".format(prompt)}]
+                    messages=[{"role": "user", "content": prompt[0]}]
+                )
+                assist_output = self.parse_basic_text(assist_completion)
+                exec_completion = openai.ChatCompletion.create(
+                    model=self.args.model,
+                    messages=[{"role": "user", "content": prompt[0]},
+                              {"role": "assistant","content":assist_output},
+                              {"role": "user","content":prompt[1]}
+                              ]
                 )
                 break
             except (openai.error.APIError, openai.error.RateLimitError) as e: 
@@ -94,7 +102,7 @@ class ConversationalGPTBaseAgent(GPT3BaseAgent):
                 time.sleep(2)
                 continue
 
-        return completion
+        return exec_completion
 
     def parse_basic_text(self, response):
         output = response['choices'][0].message.content.strip()
