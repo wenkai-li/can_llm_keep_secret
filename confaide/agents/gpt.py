@@ -88,7 +88,7 @@ class ConversationalGPTBaseAgent(GPT3BaseAgent):
                     model=self.args.model,
                     messages=[{"role": "user", "content": prompt[0]}]
                 )
-                assist_output = self.parse_basic_text(assist_completion)
+                assist_output = self.parse_basic_text_single(assist_completion)
                 exec_completion = openai.ChatCompletion.create(
                     model=self.args.model,
                     messages=[{"role": "user", "content": prompt[0]},
@@ -104,7 +104,10 @@ class ConversationalGPTBaseAgent(GPT3BaseAgent):
 
         return assist_output,exec_completion
 
+    def parse_basic_text_single(self, response):
+        output = response['choices'][0].message.content.strip()
+        return output
+
     def parse_basic_text(self, response):
         output = response[1]['choices'][0].message.content.strip()
-
         return response[0],output
