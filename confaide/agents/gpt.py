@@ -102,9 +102,9 @@ class ConversationalGPTBaseAgent(GPT3BaseAgent):
                 time.sleep(2)
                 continue
 
-        return exec_completion
+        return assist_output,exec_completion
 
     def parse_basic_text(self, response):
-        output = response['choices'][0].message.content.strip()
+        output = response[1]['choices'][0].message.content.strip()
 
-        return output
+        return response[0],output

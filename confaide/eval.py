@@ -353,12 +353,13 @@ class EvalAgent():
 
             while True:
                 _response = self.model.interact((data['privacy_assistant_input'],data['executor_assistant_input']))
-                response = self.parse_response(_response)
-                if response is not None:
+                assist_response = self.parse_response(_response[0])
+                exec_response = self.parse_response(_response[1])
+                if exec_response is not None:
                     break
                 print("Invalid response: {}. Trying again...".format(_response))
-            model_responses.append(response)
-            save_output = {'index': idx, 'response': response}
+            model_responses.append(exec_response)
+            save_output = {'index': idx, 'assist_response': assist_response,'exec_response':exec_response}
             save_output.update(data)
             # save the model responses in a file on the fly
             with open(model_outputs_filepath, 'a') as f:
